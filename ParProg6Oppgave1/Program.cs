@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Insekt
+﻿namespace Insekt
 {
     internal class Program
     {
@@ -117,7 +114,7 @@ namespace Insekt
             KanBite = kanBite;
             Plage = plage;
             HarBeina = harBeina;
-            BevegelseMåte = bevegelseMåte; 
+            BevegelseMåte = bevegelseMåte;
         }
 
         public string Name { get; }
@@ -127,7 +124,7 @@ namespace Insekt
         public int HarBeina { get; set; }
         public string BevegelseMåte { get; set; }
 
-        public void ShowInfo()
+        public virtual void ShowInfo()
         {
             Console.WriteLine("Info om insekt");
             Console.WriteLine($" Insekt navn: {Name}");
@@ -136,31 +133,87 @@ namespace Insekt
             Console.WriteLine($" Plage: {Plage}");
             Console.WriteLine($" Antall bein: {HarBeina}");
             Console.WriteLine($" Beskriv bevegelsesmåte: {BevegelseMåte}");
+            Console.WriteLine("Spesiel funksjon ");
         }
     }
 
     public class Mygg : BaseIsect
     {
         public Mygg() : base("Mygg", true, true, "Suger blod, gir kløe", 6, "Flyr") { }
+
+        public void Fly()
+        {
+            Console.Write("Myggen flyr av gårde");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            Fly();
+        }
     }
 
     public class Husflue : BaseIsect
     {
         public Husflue() : base("Husflue", true, false, "Irriterende, lander på mat", 6, "Flyr") { }
+
+        public void MakeBzzzzSound()
+        {
+            Console.Write("BzzzzzzzzzzzzzzBzzzzzzzzzzzzBzzzzzzzzzzz");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            MakeBzzzzSound();
+        }
     }
 
     public class Edderkopp : BaseIsect
     {
         public Edderkopp() : base("Edderkopp", false, true, "Kan skremme folk", 8, "Går") { }
+
+        public void MakeWeb()
+        {
+            Console.Write("Edderkoppen starter å spinne et web");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            MakeWeb();
+        }
     }
 
     public class Flaatt : BaseIsect
     {
         public Flaatt() : base("Flaatt", false, true, "Kan spre sykdom", 8, "Kryper") { }
+
+        public void SuckBlood()
+        {
+            Console.Write("Flaatten suger blod fra sitt offer");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            SuckBlood();
+        }
     }
 
     public class Veps : BaseIsect
     {
         public Veps() : base("Veps", true, true, "Stikker smertefullt", 6, "Flyr") { }
+
+        public void Attack()
+        {
+            Console.Write("Vepsen stikker deg");
+        }
+
+        public override void ShowInfo()
+        {
+            base.ShowInfo();
+            Attack();
+        }
     }
 }
