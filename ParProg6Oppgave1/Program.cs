@@ -1,4 +1,6 @@
-﻿namespace Insekt
+﻿using System.Text.Json;
+
+namespace Insekt
 {
     internal class Program
     {
@@ -13,6 +15,7 @@
 
         static void Main(string[] args)
         {
+            JsonTest json = new();
             List<BaseIsect> insekter = new List<BaseIsect>
             {
                 new Mygg(),
@@ -21,6 +24,7 @@
                 new Flaatt(),
                 new Veps()
             };
+            json.SaveInsekter(insekter);
 
             bool running = true;
             while (running)
@@ -74,6 +78,7 @@
                         var nyttInsekt = new BaseIsect(name, kanFly, kanBite, plage, harBeina, bevegelse);
                         insekter.Add(nyttInsekt);
                         Console.WriteLine("Insekt lagt til!");
+                        json.SaveInsekter(insekter);
                         break;
 
                     case MenuValg.Avslutt:
@@ -214,6 +219,25 @@
         {
             base.ShowInfo();
             Attack();
+        }
+    }
+
+    public class JsonTest
+    {
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "insekt.json");
+
+
+        public void SaveInsekter(List<BaseIsect> insekter)
+        {
+
+            string json = JsonSerializer.Serialize(insekter);
+            File.WriteAllText(path, json);
+            Console.WriteLine("Insekter lagret til JSON-fil.");
+        }
+
+        public void LoadInsekter()
+        {
+            string json = File.ReadAllText(path);
         }
     }
 }
