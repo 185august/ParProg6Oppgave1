@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using ParProg6Oppgave1;
 
 namespace Insekt
 {
@@ -16,7 +16,7 @@ namespace Insekt
         static void Main(string[] args)
         {
             JsonTest json = new();
-            List<BaseIsect> insekter = new List<BaseIsect>
+            List<BaseInsect> insekter = new List<BaseInsect>
             {
                 new Mygg(),
                 new Husflue(),
@@ -24,7 +24,8 @@ namespace Insekt
                 new Flaatt(),
                 new Veps()
             };
-            json.SaveInsekter(insekter);
+            //List<BaseInsect> insekter = json.LoadInsekter();
+
 
             bool running = true;
             while (running)
@@ -75,7 +76,7 @@ namespace Insekt
                         Console.Write("Bevegelsesmåte: ");
                         string bevegelse = Console.ReadLine();
 
-                        var nyttInsekt = new BaseIsect(name, kanFly, kanBite, plage, harBeina, bevegelse);
+                        var nyttInsekt = new BaseInsect(name, kanFly, kanBite, plage, harBeina, bevegelse);
                         insekter.Add(nyttInsekt);
                         Console.WriteLine("Insekt lagt til!");
                         json.SaveInsekter(insekter);
@@ -110,137 +111,17 @@ namespace Insekt
         }
     }
 
-    public class BaseIsect
-    {
-        public BaseIsect(string name, bool kanFly, bool kanBite, string plage, int harBeina, string bevegelseMaate)
-        {
-            Name = name;
-            KanFly = kanFly;
-            KanBite = kanBite;
-            Plage = plage;
-            HarBeina = harBeina;
-            BevegelseMaate = bevegelseMaate;
-        }
 
-        public string Name { get; set; }
-        public bool KanFly { get; set; }
-        public bool KanBite { get; set; }
-        public string Plage { get; set; }
-        public int HarBeina { get; set; }
-        public string BevegelseMaate { get; set; }
 
-        public virtual void ShowInfo()
-        {
-            Console.WriteLine("Info om insekt");
-            Console.WriteLine($" Insekt navn: {Name}");
-            Console.WriteLine($" Kan Fly: {KanFly}");
-            Console.WriteLine($" Kan bite: {KanBite}");
-            Console.WriteLine($" Plage: {Plage}");
-            Console.WriteLine($" Antall bein: {HarBeina}");
-            Console.WriteLine($" Beskriv bevegelsesmåte: {BevegelseMaate}");
-            Console.WriteLine("Spesiel funksjon ");
-        }
-    }
 
-    public class Mygg : BaseIsect
-    {
-        public Mygg() : base("Mygg", true, true, "Suger blod, gir kløe", 6, "Flyr") { }
 
-        public void Fly()
-        {
-            Console.Write("Myggen flyr av gårde");
-        }
 
-        public override void ShowInfo()
-        {
-            base.ShowInfo();
-            Fly();
-        }
-    }
 
-    public class Husflue : BaseIsect
-    {
-        public Husflue() : base("Husflue", true, false, "Irriterende, lander på mat", 6, "Flyr") { }
 
-        public void MakeBzzzzSound()
-        {
-            Console.Write("BzzzzzzzzzzzzzzBzzzzzzzzzzzzBzzzzzzzzzzz");
-        }
 
-        public override void ShowInfo()
-        {
-            base.ShowInfo();
-            MakeBzzzzSound();
-        }
-    }
 
-    public class Edderkopp : BaseIsect
-    {
-        public Edderkopp() : base("Edderkopp", false, true, "Kan skremme folk", 8, "Går") { }
 
-        public void MakeWeb()
-        {
-            Console.Write("Edderkoppen starter å spinne et web");
-        }
 
-        public override void ShowInfo()
-        {
-            base.ShowInfo();
-            MakeWeb();
-        }
-    }
 
-    public class Flaatt : BaseIsect
-    {
-        public Flaatt() : base("Flaatt", false, true, "Kan spre sykdom", 8, "Kryper") { }
 
-        public void SuckBlood()
-        {
-            Console.Write("Flaatten suger blod fra sitt offer");
-        }
-
-        public override void ShowInfo()
-        {
-            base.ShowInfo();
-            SuckBlood();
-        }
-    }
-
-    public class Veps : BaseIsect
-    {
-        public Veps() : base("Veps", true, true, "Stikker smertefullt", 6, "Flyr") { }
-
-        public void Attack()
-        {
-            Console.Write("Vepsen stikker deg");
-        }
-
-        public override void ShowInfo()
-        {
-            base.ShowInfo();
-            Attack();
-        }
-    }
-
-    public class JsonTest
-    {
-        string path = Path.Combine(AppContext.BaseDirectory, "insektnew.json");
-        JsonSerializerOptions options = new()
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-        public void SaveInsekter(List<BaseIsect> insekter)
-        {
-
-            string json = JsonSerializer.Serialize(insekter, options);
-            File.WriteAllText(path, json);
-            Console.WriteLine("Insekter lagret til JSON-fil.");
-        }
-
-        public void LoadInsekter()
-        {
-            string json = File.ReadAllText(path);
-        }
-    }
 }
