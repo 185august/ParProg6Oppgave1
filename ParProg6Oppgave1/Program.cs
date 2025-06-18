@@ -112,22 +112,22 @@ namespace Insekt
 
     public class BaseIsect
     {
-        public BaseIsect(string name, bool kanFly, bool kanBite, string plage, int harBeina, string bevegelseMåte)
+        public BaseIsect(string name, bool kanFly, bool kanBite, string plage, int harBeina, string bevegelseMaate)
         {
             Name = name;
             KanFly = kanFly;
             KanBite = kanBite;
             Plage = plage;
             HarBeina = harBeina;
-            BevegelseMåte = bevegelseMåte;
+            BevegelseMaate = bevegelseMaate;
         }
 
-        public string Name { get; }
+        public string Name { get; set; }
         public bool KanFly { get; set; }
         public bool KanBite { get; set; }
         public string Plage { get; set; }
         public int HarBeina { get; set; }
-        public string BevegelseMåte { get; set; }
+        public string BevegelseMaate { get; set; }
 
         public virtual void ShowInfo()
         {
@@ -137,7 +137,7 @@ namespace Insekt
             Console.WriteLine($" Kan bite: {KanBite}");
             Console.WriteLine($" Plage: {Plage}");
             Console.WriteLine($" Antall bein: {HarBeina}");
-            Console.WriteLine($" Beskriv bevegelsesmåte: {BevegelseMåte}");
+            Console.WriteLine($" Beskriv bevegelsesmåte: {BevegelseMaate}");
             Console.WriteLine("Spesiel funksjon ");
         }
     }
@@ -224,13 +224,16 @@ namespace Insekt
 
     public class JsonTest
     {
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "insekt.json");
-
-
+        string path = Path.Combine(AppContext.BaseDirectory, "insektnew.json");
+        JsonSerializerOptions options = new()
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
         public void SaveInsekter(List<BaseIsect> insekter)
         {
 
-            string json = JsonSerializer.Serialize(insekter);
+            string json = JsonSerializer.Serialize(insekter, options);
             File.WriteAllText(path, json);
             Console.WriteLine("Insekter lagret til JSON-fil.");
         }
