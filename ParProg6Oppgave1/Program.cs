@@ -58,29 +58,75 @@ namespace Insekt
                         break;
 
                     case MenuValg.LeggTil:
-                        Console.Write("Navn: ");
-                        string name = Console.ReadLine();
+                        string name;
+                        do
+                        {
+                            Console.Write("Navn: ");
+                            name = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(name) || !System.Text.RegularExpressions.Regex.IsMatch(name, @"^[A-Za-zÆØÅæøå\s\-]+$"))
+                            {
+                                Console.WriteLine("Navn må være tekst og kan ikke være tomt.");
+                                name = null;
+                            }
+                        } while (string.IsNullOrWhiteSpace(name));
 
-                        Console.Write("Kan fly (true/false): ");
-                        bool.TryParse(Console.ReadLine(), out bool kanFly);
+                        bool kanFly;
+                        while (true)
+                        {
+                            Console.Write("Kan fly (true/false): ");
+                            string input = Console.ReadLine()?.Trim().ToLower();
+                            if (bool.TryParse(input, out kanFly)) break;
+                            Console.WriteLine("Skriv inn 'true' eller 'false'.");
+                        }
 
-                        Console.Write("Kan bite (true/false): ");
-                        bool.TryParse(Console.ReadLine(), out bool kanBite);
+                        bool kanBite;
+                        while (true)
+                        {
+                            Console.Write("Kan bite (true/false): ");
+                            string input = Console.ReadLine()?.Trim().ToLower();
+                            if (bool.TryParse(input, out kanBite)) break;
+                            Console.WriteLine("Skriv inn 'true' eller 'false'.");
+                        }
 
-                        Console.Write("Plage: ");
-                        string plage = Console.ReadLine();
+                        string plage;
+                        do
+                        {
+                            Console.Write("Plage: ");
+                            plage = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(plage) || !System.Text.RegularExpressions.Regex.IsMatch(plage, @"^[\wæøåÆØÅ\s.,\-!?]+$"))
+                            {
+                                Console.WriteLine("Plage må være gyldig tekst.");
+                                plage = null;
+                            }
+                        } while (string.IsNullOrWhiteSpace(plage));
 
-                        Console.Write("Antall bein: ");
-                        int.TryParse(Console.ReadLine(), out int harBeina);
+                        int harBeina;
+                        while (true)
+                        {
+                            Console.Write("Antall bein (0–100): ");
+                            string input = Console.ReadLine();
+                            if (int.TryParse(input, out harBeina) && harBeina >= 0 && harBeina <= 100) break;
+                            Console.WriteLine("Skriv inn et gyldig tall mellom 0 og 100.");
+                        }
 
-                        Console.Write("Bevegelsesmåte: ");
-                        string bevegelse = Console.ReadLine();
+                        string bevegelse;
+                        do
+                        {
+                            Console.Write("Bevegelsesmåte: ");
+                            bevegelse = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(bevegelse) || !System.Text.RegularExpressions.Regex.IsMatch(bevegelse, @"^[\wæøåÆØÅ\s.,\-!?]+$"))
+                            {
+                                Console.WriteLine("Bevegelsesmåte må være gyldig tekst.");
+                                bevegelse = null;
+                            }
+                        } while (string.IsNullOrWhiteSpace(bevegelse));
 
                         var nyttInsekt = new BaseInsect(name, kanFly, kanBite, plage, harBeina, bevegelse);
                         insekter.Add(nyttInsekt);
                         Console.WriteLine("Insekt lagt til!");
                         json.SaveInsekter(insekter);
                         break;
+
 
                     case MenuValg.Avslutt:
                         Console.WriteLine("Avslutter...");
@@ -110,18 +156,4 @@ namespace Insekt
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
